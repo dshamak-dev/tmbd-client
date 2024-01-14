@@ -3,8 +3,6 @@ import React from "react";
 import { discoverMovies, getTrending } from "../app/app.api";
 import { MediaList } from "../components/organisms/MediaList";
 
-import "./App.css";
-
 function App() {
   return (
     <main>
