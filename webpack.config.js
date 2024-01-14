@@ -1,39 +1,39 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const DotenvWebpack = require('dotenv-webpack');
-// const dotenv = require('dotenv');
-// const webpack = require('webpack');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const DotenvWebpack = require("dotenv-webpack");
 
 module.exports = (env) => {
-  const rootFolder = './public';
+  const buildFolder = "./dist";
+  const rootFolder = "./public";
 
   return {
-    entry: path.resolve(__dirname, './src/index.ts'),
+    entry: path.resolve(__dirname, "./src/index.ts"),
     output: {
-      chunkFilename: '[name].[contenthash].js',
-      filename: '[name].[contenthash].js',
-      assetModuleFilename: '[name].[contenthash][ext][query]',
+      chunkFilename: "[name].[contenthash].js",
+      filename: "[name].[contenthash].js",
+      assetModuleFilename: "[name].[contenthash][ext][query]",
       asyncChunks: true,
-      path: path.resolve(__dirname, rootFolder),
+      path: path.resolve(__dirname, buildFolder),
       clean: true,
-      publicPath: '/',
+      publicPath: "/",
     },
-    devtool: 'source-map',
+    devtool: "source-map",
     devServer: {
       static: {
         directory: path.join(__dirname, rootFolder),
       },
       historyApiFallback: {
-        index: '/'
+        index: "/",
       },
       port: 8008,
     },
     plugins: [
       new DotenvWebpack({
-        path: path.resolve(__dirname, '.env.local'),
+        path: path.resolve(__dirname, ".env.local"),
       }),
       new HtmlWebpackPlugin({
-        template: path.join(__dirname, rootFolder, 'index.html'),
+        favicon: path.join(__dirname, rootFolder, './favicon.ico'),
+        template: path.join(__dirname, rootFolder, "index.html"),
       }),
     ],
     module: {
@@ -41,27 +41,27 @@ module.exports = (env) => {
       rules: [
         {
           test: /\.tsx?$/,
-          use: 'ts-loader',
+          use: "ts-loader",
           exclude: /node_modules/,
         },
         {
           test: /\.css$/i,
-          use: ['style-loader', 'css-loader', 'postcss-loader'],
+          use: ["style-loader", "css-loader", "postcss-loader"],
         },
         {
           test: /\.(js)$/,
           exclude: /node_modules/,
-          enforce: 'pre',
-          use: ['babel-loader', 'source-map-loader'],
+          enforce: "pre",
+          use: ["babel-loader", "source-map-loader"],
         },
       ],
     },
     resolve: {
       alias: {
-        src: '/src',
+        src: "/src",
       },
-      modules: [path.resolve('./node_modules'), path.resolve('./src')],
-      extensions: ['*', '.js', '.ts', '.tsx'],
+      modules: [path.resolve("./node_modules"), path.resolve("./src")],
+      extensions: ["*", ".js", ".ts", ".tsx"],
     },
     stats: {
       children: true,
@@ -71,7 +71,7 @@ module.exports = (env) => {
       usedExports: false,
       minimize: true,
       splitChunks: {
-        chunks: 'async',
+        chunks: "async",
       },
     },
   };
